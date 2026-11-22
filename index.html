@@ -1157,6 +1157,9 @@
     if (!img.complete) img.addEventListener('load', layout);
   });
   window.addEventListener('resize', layout);
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(function () { layout(); }).observe(pile);
+  }
   layout();
 })();
 </script>
