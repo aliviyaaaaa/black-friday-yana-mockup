@@ -1,0 +1,97 @@
+{
+  "ozeba": {
+    "name": "Хореография OZEBA",
+    "price": 1500,
+    "link": "https://payform.ru/f2d5Feh/"
+  },
+  "moonlight": {
+    "name": "Хореография MOONLIGHT VIBE",
+    "price": 1500,
+    "link": "https://payform.ru/f3d5Fei/"
+  },
+  "charm": {
+    "name": "Хореография CHARM",
+    "price": 1500,
+    "link": "https://payform.ru/f4d5Fej/"
+  },
+  "butta": {
+    "name": "Хореография BUTTA MY BREAD",
+    "price": 1500,
+    "link": "https://payform.ru/f6d5Fel/"
+  },
+  "shekini": {
+    "name": "Хореография SHEKINI",
+    "price": 1500,
+    "link": "https://payform.ru/f7d5Fem/"
+  },
+  "drenagem": {
+    "name": "Хореография DRENAGEM",
+    "price": 1500,
+    "link": "https://payform.ru/f8d5Fen/"
+  },
+  "baby": {
+    "name": "Хореография BABY",
+    "price": 1500,
+    "link": "https://payform.ru/fad5Fep/"
+  },
+  "soweto": {
+    "name": "Хореография SOWETO",
+    "price": 1500,
+    "link": "https://payform.ru/fbd5Feq/"
+  },
+  "package": {
+    "name": "Все 8 хореографий (пакет)",
+    "price": 7000,
+    "link": "https://payform.ru/fcd5Fer/"
+  },
+  "ndombolo": {
+    "name": "Блок NDOMBOLO",
+    "price": 2990,
+    "link": "https://payform.ru/fdd5Fes/"
+  },
+  "afrohouse": {
+    "name": "Блок AFROHOUSE",
+    "price": 2990,
+    "link": "https://payform.ru/fed5Fet/"
+  },
+  "azonto": {
+    "name": "Блок AZONTO",
+    "price": 2990,
+    "link": "https://payform.ru/ffd5Feu/"
+  },
+  "coupedecale": {
+    "name": "Блок COUPE DECALE",
+    "price": 2990,
+    "link": "https://payform.ru/fgd5Fev/"
+  },
+  "naijafusion": {
+    "name": "Блок NAIJA FUSION",
+    "price": 2990,
+    "link": "https://payform.ru/fhd5Few/"
+  },
+  "gaboma": {
+    "name": "Блок GABOMA",
+    "price": 2990,
+    "link": "https://payform.ru/fid5Fex/"
+  },
+  "sastyles": {
+    "name": "Блок SOUTH AFRICAN STYLES",
+    "price": 2990,
+    "link": "https://payform.ru/fjd5Fey/"
+  },
+  "afrojizz": {
+    "name": "Блок AFROJIZZ",
+    "price": 2990,
+    "link": "https://payform.ru/fkd5Fez/"
+  },
+  "hips": {
+    "name": "Курс «Дикие бёдра»",
+    "price": 4490,
+    "link": "https://payform.ru/fld5FeA/"
+  },
+  "checklist": {
+    "name": "Чеклист по афро-степам + лекции",
+    "price": 1490,
+    "link": "https://payform.ru/fmd5FeB/"
+  }
+}

@@ -579,6 +579,23 @@
     font-size: 13px; font-weight: 700; cursor: pointer;
   }
   .cart-bonus { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,.6); border: 1px dashed rgba(214,90,74,.5); border-radius: 12px; padding: 12px 14px; }
+  .pay-back { background: none; border: none; color: rgba(255,255,255,.55); font-size: 14px; cursor: pointer; padding: 0; margin-bottom: 14px; }
+  .pay-back:hover { color: #fff; }
+  .pay-btn {
+    display: inline-block; padding: 10px 18px;
+    background: var(--cta); color: #fff; text-decoration: none;
+    border-radius: 999px; font-size: 13px; font-weight: 700; white-space: nowrap;
+  }
+  .pay-btn.opened { background: rgba(255,255,255,.15); }
+  .pay-note { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,.65); border-radius: 12px; padding: 12px 14px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); margin-bottom: 12px; }
+  .paid-box {
+    background: #151015; border: 1px solid rgba(255,45,45,.35); border-radius: 20px;
+    padding: 34px 30px; max-width: 420px; text-align: center;
+  }
+  .paid-box h3 { color: #fff; font-size: 22px; margin: 10px 0 12px; }
+  .paid-box p { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.75); }
+  .paid-box a { color: var(--accent); }
+  .paid-emoji { font-size: 46px; }
   .cart-foot { padding: 18px 22px 24px; border-top: 1px solid rgba(255,255,255,.1); }
   .cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 900; margin-bottom: 14px; }
   .btn-checkout {
@@ -880,7 +897,7 @@
     <div><a href="https://aliviyaaaaa.github.io/black-friday-yana-mockup/oferta.html" target="_blank" rel="noopener">Публичная оферта</a> · <a href="https://aliviyaaaaa.github.io/black-friday-yana-mockup/privacy.html" target="_blank" rel="noopener">Политика конфиденциальности</a></div>
   </footer>
 
-  <div class="mockup-note">Распродажа 25–27 ноября 2026 года · Приём платежей готовится к запуску</div>
+  <div class="mockup-note">Распродажа 25–27 ноября 2026 года · Оплата картой, СБП и рассрочкой через Prodamus</div>
 </main>
 
 <!-- КОРЗИНА -->
@@ -891,10 +908,18 @@
   <div class="cart-body" id="cartBody"></div>
   <div class="cart-foot" id="cartFoot">
     <div class="cart-total"><span>Итого</span><span id="cartTotal">0 ₽</span></div>
-    <button class="btn-checkout" id="checkoutBtn" disabled>Оплата скоро появится</button>
-    <p style="font-size:13px;line-height:1.5;margin-top:10px;color:rgba(255,255,255,.7)">Приём платежей ещё не подключён. Заказ пока не оформляется.</p>
+    <button class="btn-checkout" id="checkoutBtn" disabled>Перейти к оплате</button>
   </div>
 </aside>
+
+<div class="lightbox" id="paidModal" aria-hidden="true">
+  <button class="lightbox-close" id="paidClose" aria-label="Закрыть">✕</button>
+  <div class="paid-box">
+    <div class="paid-emoji">🎉</div>
+    <h3>Оплата прошла!</h3>
+    <p>Доступ к материалам придёт на вашу почту в течение 10 минут.<br>Если письмо не пришло — напишите в поддержку: <a href="https://t.me/Yanadon_work" target="_blank" rel="noopener">@Yanadon_work</a></p>
+  </div>
+</div>
 
 <script>
 (function () {
@@ -925,6 +950,19 @@
   });
 
   var CHOREO_IDS = ['ozeba', 'moonlight', 'charm', 'butta', 'shekini', 'drenagem', 'baby', 'soweto'];
+  var PAY_LINKS = {
+    ozeba: 'https://payform.ru/f2d5Feh/', moonlight: 'https://payform.ru/f3d5Fei/',
+    charm: 'https://payform.ru/f4d5Fej/', butta: 'https://payform.ru/f6d5Fel/',
+    shekini: 'https://payform.ru/f7d5Fem/', drenagem: 'https://payform.ru/f8d5Fen/',
+    baby: 'https://payform.ru/fad5Fep/', soweto: 'https://payform.ru/fbd5Feq/',
+    pack8: 'https://payform.ru/fcd5Fer/',
+    block0: 'https://payform.ru/fdd5Fes/', block1: 'https://payform.ru/fed5Fet/',
+    block2: 'https://payform.ru/ffd5Feu/', block3: 'https://payform.ru/fgd5Fev/',
+    block4: 'https://payform.ru/fhd5Few/', block5: 'https://payform.ru/fid5Fex/',
+    block6: 'https://payform.ru/fjd5Fey/', block7: 'https://payform.ru/fkd5Fez/',
+    hips: 'https://payform.ru/fld5FeA/', checklist: 'https://payform.ru/fmd5FeB/'
+  };
+  var payView = false;
   var cart = [];
   var fab = document.getElementById('cartFab');
   var overlay = document.getElementById('cartOverlay');
@@ -951,13 +989,16 @@
     document.getElementById('cartSum').textContent = fmt(total());
     document.getElementById('cartTotal').textContent = fmt(total());
     fab.classList.toggle('show', cart.length > 0);
-    foot.style.display = cart.length ? 'block' : 'none';
+    foot.style.display = cart.length && !payView ? 'block' : 'none';
+    document.getElementById('checkoutBtn').disabled = !cart.length;
 
     if (!cart.length) {
+      payView = false;
       body.innerHTML = '<div class="cart-empty">Пока пусто. Выбери обучение в каталоге 👇</div>';
       syncButtons();
       return;
     }
+    if (payView) { renderPay(); return; }
 
     var html = '';
     cart.forEach(function (i) {
@@ -977,6 +1018,18 @@
     html += '<div class="cart-bonus">🎁 После подтверждения оплаты ты получишь лично условия скидки 10% на следующий поток Афро Академии Онлайн. На все тарифы, без суммирования с другими акциями.</div>';
     body.innerHTML = html;
     syncButtons();
+  }
+
+  function renderPay() {
+    var html = '<button class="pay-back" id="payBack">← вернуться в корзину</button>';
+    html += '<div class="pay-note">Каждый товар оплачивается отдельным платежом — это пара минут. Указывай везде одну и ту же почту: доступ к материалам придёт на неё автоматически после каждой оплаты.</div>';
+    cart.forEach(function (i) {
+      var link = PAY_LINKS[i.id];
+      html += '<div class="cart-item"><div><div class="t">' + i.title + '</div><div class="p">' + fmt(i.price) + '</div></div>' +
+        (link ? '<a class="pay-btn" href="' + link + '" target="_blank" rel="noopener">Оплатить</a>' : '') + '</div>';
+    });
+    html += '<div class="cart-bonus" style="margin-top:12px">🎁 После подтверждения оплаты ты получишь лично условия скидки 10% на следующий поток Афро Академии Онлайн. На все тарифы, без суммирования с другими акциями.</div>';
+    body.innerHTML = html;
   }
 
   document.addEventListener('click', function (e) {
@@ -1000,11 +1053,25 @@
       render();
       return;
     }
+    if (e.target.id === 'checkoutBtn') { payView = true; render(); return; }
+    if (e.target.id === 'payBack') { payView = false; render(); return; }
+    var payBtn = e.target.closest('.pay-btn');
+    if (payBtn) { payBtn.classList.add('opened'); payBtn.textContent = 'Оплата открыта ✓'; }
     if (e.target.closest('#cartFab')) { drawer.classList.add('open'); overlay.classList.add('open'); }
     if (e.target.closest('#cartClose') || e.target.id === 'cartOverlay') {
       drawer.classList.remove('open'); overlay.classList.remove('open');
     }
   });
+
+  if (/[?&]paid=1/.test(location.search)) {
+    var pm = document.getElementById('paidModal');
+    pm.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    history.replaceState(null, '', location.pathname);
+    function closePaid() { pm.classList.remove('open'); document.body.style.overflow = ''; }
+    pm.addEventListener('click', function (e) { if (e.target === pm || e.target.closest('#paidClose')) closePaid(); });
+    window.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePaid(); });
+  }
 
   render();
 })();
