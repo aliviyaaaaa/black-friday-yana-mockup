@@ -1,0 +1,1158 @@
+<style>
+  :root {
+    --accent: #ff2d2d;
+    --cta: #d65a4a;
+    --cta-shadow: rgba(214,90,74,.45);
+    --bg: #0a0a0a;
+    --text: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============ ФУТУРИСТИЧНЫЙ ФОН ============ */
+  /* точечная сетка */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: -2;
+    background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+  /* аврора-свечения */
+  .aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .aurora span { position: absolute; border-radius: 50%; filter: blur(100px); }
+  .aurora .a1 {
+    width: 420px; height: 420px; top: -140px; left: -120px;
+    background: radial-gradient(circle, #ff2d2d 0%, transparent 70%);
+    opacity: .30;
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  .aurora .a2 {
+    width: 380px; height: 380px; top: 38%; right: -150px;
+    background: radial-gradient(circle, #ff7a18 0%, transparent 70%);
+    opacity: .18;
+    animation: drift 22s ease-in-out infinite alternate-reverse;
+  }
+  .aurora .a3 {
+    width: 460px; height: 460px; bottom: -180px; left: 18%;
+    background: radial-gradient(circle, #7b2dff 0%, transparent 70%);
+    opacity: .15;
+    animation: drift 26s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(46px, 34px) scale(1.12); }
+  }
+  /* стекло */
+  .glass, .chip, .bonus, .cart-drawer {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* ============ ЭКРАН 1: ВХОДЯЩИЙ ВЫЗОВ ============ */
+  .screen-call {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .screen-call.answered {
+    opacity: 0;
+    transform: scale(1.08);
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+  }
+  .call-top { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+  .call-label {
+    font-size: 15px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.65);
+  }
+  .call-avatar {
+    width: 168px; height: 168px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--accent);
+    position: relative;
+    box-shadow: 0 0 60px rgba(255,45,45,.35);
+  }
+  .call-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .call-avatar::before, .call-avatar::after {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,45,45,.5);
+    animation: ring 2s ease-out infinite;
+  }
+  .call-avatar::after { animation-delay: 1s; }
+  @keyframes ring {
+    0%   { transform: scale(.85); opacity: 0; }
+    30%  { opacity: .8; }
+    100% { transform: scale(1.35); opacity: 0; }
+  }
+  .call-title { display: flex; flex-direction: column; gap: 6px; }
+  .call-title h1 {
+    font-size: clamp(34px, 9vw, 56px);
+    font-weight: 900;
+    letter-spacing: .02em;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+  .call-title h1 span { color: var(--accent); }
+  .call-title p { font-size: 18px; color: rgba(255,255,255,.75); }
+
+  /* --- свайп-ползунок --- */
+  .swipe-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; }
+  .swipe-hint { font-size: 13px; color: rgba(255,255,255,.5); }
+  .swipe-track {
+    position: relative;
+    width: min(340px, 86vw);
+    height: 64px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.15);
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 0 34px rgba(255,45,45,.18), inset 0 0 18px rgba(255,255,255,.03);
+  }
+  .swipe-fill {
+    position: absolute; inset: 0;
+    width: 0;
+    background: linear-gradient(90deg, rgba(255,45,45,.25), rgba(255,45,45,.55));
+    border-radius: 999px;
+  }
+  .swipe-text {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 600; letter-spacing: .04em;
+    background: linear-gradient(90deg, rgba(255,255,255,.35) 0%, #fff 50%, rgba(255,255,255,.35) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 2.2s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+  .swipe-knob {
+    position: absolute;
+    top: 4px; left: 4px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--cta);
+    display: flex; align-items: center; justify-content: center;
+    cursor: grab;
+    box-shadow: 0 4px 18px var(--cta-shadow);
+    transition: box-shadow .2s;
+  }
+  .swipe-knob:active { cursor: grabbing; box-shadow: 0 4px 26px rgba(214,90,74,.7); }
+  .swipe-knob svg { width: 26px; height: 26px; fill: #fff; animation: shake 1.6s ease-in-out infinite; }
+  @keyframes shake {
+    0%, 100% { transform: rotate(0); }
+    10% { transform: rotate(12deg); }
+    20% { transform: rotate(-10deg); }
+    30% { transform: rotate(8deg); }
+    40% { transform: rotate(-6deg); }
+    50% { transform: rotate(0); }
+  }
+
+  /* ============ ЭКРАН 2: ГЛАВНЫЙ / КАТАЛОГ ============ */
+  .screen-hero {
+    min-height: 100dvh;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .7s ease .3s, transform .7s ease .3s;
+    pointer-events: none;
+    display: none;
+  }
+  .screen-hero.visible { opacity: 1; transform: none; pointer-events: auto; display: block; }
+  .hero-photo {
+    position: relative;
+    height: 62dvh;
+    background: url('https://aliviyaaaaa.github.io/black-friday-yana-mockup/photo-main.jpg') center 18% / cover no-repeat;
+  }
+  .hero-photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(10,10,10,.25) 0%, rgba(10,10,10,0) 35%, rgba(10,10,10,.65) 70%, var(--bg) 100%);
+  }
+  .hero-content {
+    position: relative;
+    margin-top: -18dvh;
+    padding: 0 24px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .hero-date {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 7px 16px;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    background: rgba(255,45,45,.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 0 22px rgba(255,45,45,.28);
+  }
+  .hero-content h2 {
+    font-size: clamp(36px, 10vw, 72px);
+    font-weight: 900;
+    line-height: .98;
+    text-transform: uppercase;
+  }
+  .hero-content h2 span { color: var(--accent); text-shadow: 0 0 28px rgba(255,45,45,.55); }
+  .hero-sub { font-size: 18px; line-height: 1.45; color: rgba(255,255,255,.8); max-width: 560px; }
+  .btn-main {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    padding: 18px 40px;
+    background: var(--cta);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px var(--cta-shadow);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-main:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(214,90,74,.6); }
+  .bonus {
+    margin-top: 8px;
+    padding: 18px 20px;
+    border: 1px dashed rgba(214,90,74,.55);
+    border-radius: 16px;
+    background: rgba(214,90,74,.07);
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 560px;
+  }
+  .bonus b { color: #e07a68; }
+  .nav-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .chip {
+    padding: 12px 20px;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 999px;
+    background: rgba(255,255,255,.05);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+  }
+  .chip:hover { border-color: var(--accent); background: rgba(255,45,45,.12); box-shadow: 0 0 18px rgba(255,45,45,.25); }
+  /* ============ КАТАЛОГ ============ */
+  .section { padding: 64px 24px 8px; max-width: 1100px; margin: 0 auto; }
+  .section h3 {
+    font-size: clamp(26px, 6vw, 40px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    margin-bottom: 14px;
+  }
+  .section h3 span { color: var(--accent); }
+  .section-intro { font-size: 16px; line-height: 1.55; color: rgba(255,255,255,.75); max-width: 640px; margin-bottom: 8px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: rgba(255,255,255,.55); margin: 10px 0 6px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+  .card {
+    background: rgba(19,19,19,.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+  }
+  .card:hover {
+    border-color: rgba(255,45,45,.55);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px rgba(255,45,45,.14);
+  }
+  .cover {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background:
+      radial-gradient(120% 120% at 20% 10%, rgba(255,45,45,.28) 0%, rgba(255,45,45,0) 55%),
+      linear-gradient(160deg, #1c1c1c 0%, #0d0d0d 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 18px;
+    text-decoration: none;
+    color: #fff;
+  }
+  .cover-photo { background-size: cover; background-position: center; }
+  .cover-photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,.72) 0%, rgba(10,10,10,0) 55%);
+    pointer-events: none;
+  }
+  .cover .cover-flag { font-size: 46px; line-height: 1; margin-bottom: auto; filter: drop-shadow(0 4px 14px rgba(0,0,0,.5)); }
+  .cover .cover-title { font-size: 22px; font-weight: 900; text-transform: uppercase; line-height: 1.1; position: relative; z-index: 1; }
+  .cover .cover-watch { margin-top: 6px; font-size: 12px; color: rgba(255,255,255,.55); }
+  .cover .level-badge {
+    position: absolute; top: 14px; right: 14px;
+    font-size: 18px;
+    background: rgba(0,0,0,.45);
+    border-radius: 999px;
+    padding: 4px 10px;
+    backdrop-filter: blur(4px);
+  }
+  .card-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .card-body h4 { font-size: 17px; font-weight: 800; text-transform: uppercase; }
+  .card-level { font-size: 13px; color: rgba(255,255,255,.6); }
+  .card-desc { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,.65); }
+  .card-meta { font-size: 13px; color: rgba(255,255,255,.5); }
+  .price-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 10px; }
+  .price { font-size: 20px; font-weight: 900; white-space: nowrap; }
+  .btn-add {
+    padding: 11px 16px;
+    background: var(--cta);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .2s, transform .15s;
+  }
+  .btn-add:hover { transform: translateY(-1px); }
+  .btn-add.in-cart { background: rgba(255,255,255,.12); cursor: default; }
+  .btn-add.in-cart:hover { transform: none; }
+  .watch-link { font-size: 13px; color: var(--accent); text-decoration: none; }
+  .watch-link:hover { text-decoration: underline; }
+
+  /* пакет / курс — выделенные карточки с градиентной рамкой */
+  .package {
+    position: relative;
+    margin-top: 18px;
+    border: none;
+    border-radius: 22px;
+    padding: 26px;
+    background: rgba(20,20,20,.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    justify-content: space-between;
+  }
+  .package::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 22px;
+    padding: 2px;
+    background: linear-gradient(120deg, #ff2d2d 0%, #ff7a18 45%, #7b2dff 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .package .p-title { font-size: 22px; font-weight: 900; text-transform: uppercase; }
+  .package .p-sub { font-size: 14px; color: rgba(255,255,255,.7); margin-top: 6px; max-width: 460px; line-height: 1.5; }
+  .package .p-sub b { color: var(--accent); }
+  .package .p-price { font-size: 30px; font-weight: 900; white-space: nowrap; }
+  .package .p-old { font-size: 15px; color: rgba(255,255,255,.45); text-decoration: line-through; white-space: nowrap; }
+
+  .bonus-big {
+    margin-top: 56px;
+    border-radius: 22px;
+    border: 1px dashed rgba(214,90,74,.55);
+    background: rgba(214,90,74,.06);
+    padding: 30px 26px;
+    max-width: 1100px;
+  }
+  .bonus-big h3 { margin-bottom: 10px; }
+  .bonus-big p { color: rgba(255,255,255,.75); line-height: 1.6; max-width: 640px; }
+
+  /* о преподавателе */
+  .about { display: grid; grid-template-columns: 300px 1fr; gap: 28px; align-items: start; }
+  .about img { width: 100%; border-radius: 20px; display: block; }
+  .about-text p { font-size: 15px; line-height: 1.65; color: rgba(255,255,255,.78); margin-bottom: 12px; }
+  .about-text .ig { color: var(--accent); text-decoration: none; font-size: 14px; margin-right: 16px; }
+  @media (max-width: 720px) { .about { grid-template-columns: 1fr; } .about img { max-width: 320px; } }
+
+  /* отзывы — стопка карточек */
+  .reviews-hint { color: rgba(255,255,255,.5); font-size: 14px; margin-top: 10px; }
+  .pile { position: relative; margin-top: 26px; height: 380px; transition: height .6s ease; }
+  .rev-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    background: #fff;
+    padding: 8px 8px 10px;
+    border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.1);
+    cursor: pointer;
+    transition: transform .7s cubic-bezier(.22,1,.36,1), box-shadow .3s;
+    will-change: transform;
+  }
+  .rev-card img { width: 100%; display: block; border-radius: 9px; pointer-events: none; }
+  .rev-card:hover { box-shadow: 0 18px 44px rgba(0,0,0,.65), 0 0 0 1.5px rgba(255,45,45,.5); z-index: 60; }
+  @media (max-width: 720px) { .pile { height: 300px; } }
+
+  /* лайтбокс отзыва */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(5,3,8,.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s;
+  }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  .lightbox img {
+    max-width: 92vw;
+    max-height: 86vh;
+    background: #fff;
+    padding: 10px;
+    border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.7);
+    transform: scale(.92);
+    transition: transform .3s;
+  }
+  .lightbox.open img { transform: scale(1); }
+  .lightbox-close {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.08);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.25);
+    font-size: 18px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .lightbox-close:hover { background: rgba(255,45,45,.35); }
+  @media (prefers-reduced-motion: reduce) {
+    .rev-card, .lightbox, .lightbox img { transition: none; }
+  }
+
+  .placeholder-box {
+    border: 1px dashed rgba(255,255,255,.25);
+    border-radius: 16px;
+    padding: 26px;
+    color: rgba(255,255,255,.45);
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* FAQ */
+  details.faq {
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    padding: 16px 2px;
+  }
+  details.faq summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+    list-style: none;
+  }
+  details.faq summary::before { content: '+ '; color: var(--accent); font-weight: 900; }
+  details.faq[open] summary::before { content: '– '; }
+  details.faq p { margin-top: 10px; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.7); }
+
+  /* подвал */
+  footer {
+    margin-top: 64px;
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding: 32px 24px 90px;
+    font-size: 13px;
+    color: rgba(255,255,255,.45);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ============ КОРЗИНА ============ */
+  .cart-fab {
+    position: fixed;
+    right: 18px; bottom: 18px;
+    z-index: 50;
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 22px;
+    background: var(--cta);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-size: 15px; font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 30px var(--cta-shadow);
+    transform: translateY(120px);
+    transition: transform .3s ease;
+  }
+  .cart-fab.show { transform: none; }
+  .cart-fab .cnt { background: rgba(0,0,0,.3); border-radius: 999px; padding: 2px 10px; }
+  .cart-overlay {
+    position: fixed; inset: 0; z-index: 60;
+    background: rgba(0,0,0,.6);
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s;
+  }
+  .cart-overlay.open { opacity: 1; pointer-events: auto; }
+  .cart-drawer {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 61;
+    width: min(420px, 100vw);
+    background: rgba(17,17,17,.86);
+    border-left: 1px solid rgba(255,255,255,.12);
+    transform: translateX(100%);
+    transition: transform .3s ease;
+    display: flex; flex-direction: column;
+  }
+  .cart-drawer.open { transform: none; }
+  .cart-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 22px; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .cart-head h3 { font-size: 19px; text-transform: uppercase; }
+  .cart-close { background: none; border: none; color: #fff; font-size: 26px; cursor: pointer; line-height: 1; }
+  .cart-body { flex: 1; overflow-y: auto; padding: 18px 22px; display: flex; flex-direction: column; gap: 12px; }
+  .cart-empty { color: rgba(255,255,255,.45); text-align: center; margin-top: 40px; font-size: 14px; }
+  .cart-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: #1a1a1a; border: 1px solid rgba(255,255,255,.08);
+    border-radius: 14px; padding: 12px 14px;
+  }
+  .cart-item .t { font-size: 14px; font-weight: 700; }
+  .cart-item .p { font-size: 13px; color: rgba(255,255,255,.6); margin-top: 2px; }
+  .cart-item .rm { background: none; border: none; color: rgba(255,255,255,.4); font-size: 18px; cursor: pointer; }
+  .cart-item .rm:hover { color: var(--accent); }
+  .cart-warn {
+    font-size: 13px; line-height: 1.5;
+    border-radius: 12px; padding: 12px 14px;
+    background: rgba(255,190,0,.1); border: 1px solid rgba(255,190,0,.4); color: #ffd76a;
+  }
+  .cart-swap {
+    margin-top: 8px;
+    padding: 9px 14px;
+    background: var(--cta); color: #fff; border: none; border-radius: 999px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .cart-bonus { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,.6); border: 1px dashed rgba(214,90,74,.5); border-radius: 12px; padding: 12px 14px; }
+  .cart-foot { padding: 18px 22px 24px; border-top: 1px solid rgba(255,255,255,.1); }
+  .cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 900; margin-bottom: 14px; }
+  .btn-checkout {
+    width: 100%;
+    padding: 17px;
+    background: var(--cta); color: #fff; border: none; border-radius: 999px;
+    font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em;
+    cursor: pointer;
+  }
+  .success-box { text-align: center; padding: 30px 6px; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+  .success-box .ok { font-size: 52px; }
+  .success-box p { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.75); }
+
+  .mockup-note {
+    padding: 24px;
+    font-size: 13px;
+    color: rgba(255,255,255,.4);
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
+</style>
+
+
+<div class="aurora"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+
+<!-- ЭКРАН 1: ВХОДЯЩИЙ ВЫЗОВ -->
+<section class="screen-call" id="screenCall">
+  <div class="call-top">
+    <div class="call-label">Входящий вызов…</div>
+    <div class="call-avatar"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/photo-main.jpg" alt="Яна Дон"></div>
+    <div class="call-title">
+      <h1>Чёрная<br>пятница <span>·</span></h1>
+      <p>с Яной Дон</p>
+    </div>
+  </div>
+  <div class="swipe-wrap">
+    <div class="swipe-track" id="swipeTrack">
+      <div class="swipe-fill" id="swipeFill"></div>
+      <div class="swipe-text">Ответить на вызов</div>
+      <div class="swipe-knob" id="swipeKnob">
+        <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
+      </div>
+    </div>
+    <div class="swipe-hint">Свайпни, чтобы открыть каталог</div>
+  </div>
+</section>
+
+<!-- ЭКРАН 2: ГЛАВНЫЙ -->
+<main class="screen-hero" id="screenHero">
+  <div class="hero-photo"></div>
+  <div class="hero-content">
+    <span class="hero-date">13–15 ноября</span>
+    <h2>Чёрная<br>пятница <span>с Яной Дон</span></h2>
+    <p class="hero-sub">Хореографии, афро-база и работа с бёдрами — выбирай, что будешь прокачивать.</p>
+    <a class="btn-main" href="#catalog">Выбрать обучение</a>
+    <div class="bonus">🎁 <b>Бонус:</b> каждому покупателю — скидка на следующий поток <b>Афро Академии Онлайн</b></div>
+    <nav class="nav-chips" id="catalog">
+      <a class="chip" href="#choreo">Хореографии</a>
+      <a class="chip" href="#blocks">Разборы и тематические блоки</a>
+      <a class="chip" href="#hips">Курс по бёдрам</a>
+      <a class="chip" href="#checklist">Чеклист по афро-степам</a>
+    </nav>
+  </div>
+  <!-- ХОРЕОГРАФИИ -->
+  <section class="section" id="choreo">
+    <h3>Хореографии</h3>
+    <p class="section-intro">Выбирай любимую хореографию или забирай все восемь по специальной цене.</p>
+    <div class="legend">
+      <span>🟢 — лёгкое хорео</span>
+      <span>🟡 — усложнённое хорео</span>
+      <span>🔴 — всё в твоих руках</span>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <a class="cover cover-photo" style="background-image:url('https://aliviyaaaaa.github.io/black-friday-yana-mockup/covers/ozeba.jpg')" href="https://www.instagram.com/p/DTQHjMDjtLc/" target="_blank" rel="noopener">
+          <span class="level-badge">🟡</span>
+          <span class="cover-title">Ozeba</span>
+          <span class="cover-watch">нажми, чтобы посмотреть ↗</span>
+        </a>
+        <div class="card-body">
+          <div class="card-level">🟡 Усложнённое хорео</div>
+          <div class="card-meta">Доступ — навсегда</div>
+          <div class="price-row"><span class="price">1 500 ₽</span><button class="btn-add" data-id="ozeba" data-title="Хореография OZEBA" data-price="1500" data-kind="choreo">В корзину</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <a class="cover cover-photo" style="background-image:url('https://aliviyaaaaa.github.io/black-friday-yana-mockup/covers/moonlight.jpg')" href="https://www.instagram.com/reel/DF2400iIlp6/" target="_blank" rel="noopener">
+          <span class="level-badge">🔴</span>
+          <span class="cover-title">Moonlight Vibe</span>
+          <span class="cover-watch">нажми, чтобы посмотреть ↗</span>
+        </a>
+        <div class="card-body">
+          <div class="card-level">🔴 Всё в твоих руках</div>
+          <div class="card-meta">Доступ — навсегда</div>
+          <div class="price-row"><span class="price">1 500 ₽</span><button class="btn-add" data-id="moonlight" data-title="Хореография MOONLIGHT VIBE" data-price="1500" data-kind="choreo">В корзину</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <a class="cover cover-photo" style="background-image:url('https://aliviyaaaaa.github.io/black-friday-yana-mockup/covers/charm.jpg')" href="https://www.instagram.com/p/CvRwimCuSz_/" target="_blank" rel="noopener">
+          <span class="level-badge">🟢</span>
+          <span class="cover-title">Charm</span>
+          <span class="cover-watch">нажми, чтобы посмотреть ↗</span>
+        </a>
+        <div class="card-body">
+          <div class="card-level">🟢 Лёгкое хорео</div>
+          <div class="card-meta">Доступ — навсегда</div>
+          <div class="price-row"><span class="price">1 500 ₽</span><button class="btn-add" data-id="charm" data-title="Хореография CHARM" data-price="1500" data-kind="choreo">В корзину</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <a class="cover cover-photo" href="#" onclick="return false" style="cursor:default;background-image:url('https://aliviyaaaaa.github.io/black-friday-yana-mockup/covers/butta.jpg')">
+          <span class="level-badge">🟡</span>
+          <span class="cover-title">Butta My Bread</span>
+          <span class="cover-watch">ссылка уточняется</span>
+        </a>
+        <div class="card-body">
+          <div class="card-level">🟡 Усложнённое хорео</div>
+          <div class="card-meta">Доступ — навсегда</div>
+          <div class="price-row"><span class="price">1 500 ₽</span><button class="btn-add" data-id="butta" data-title="Хореография BUTTA MY BREAD" data-price="1500" data-kind="choreo">В корзину</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <a class="cover cover-photo" style="background-image:url('https://aliviyaaaaa.github.io/black-friday-yana-mockup/covers/shekini.jpg')" href="https://www.instagram.com/reel/DEchVA0o7gk/" target="_blank" rel="noopener">
+          <span class="level-badge">🟡</span>
+          <span class="cover-title">Shekini</span>
+          <span class="cover-watch">нажми, чтобы посмотреть ↗</span>
+        </a>
+        <div class="card-body">
+          <div class="card-level">🟡 Усложнённое хорео</div>
+          <div class="card-meta">Доступ — навсегда</div>
+          <div class="price-row"><span class="price">1 500 ₽</span><button class="btn-add" data-id="shekini" data-title="Хореография SHEKINI" data-price="1500" data-kind="choreo">В корзину</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <a class="cover cover-photo" style="background-image:url('https://aliviyaaaaa.github.io/black-friday-yana-mockup/covers/drenagem.jpg')" href="https://www.instagram.com/reel/DAGvddCoA1_/" target="_blank" rel="noopener">
+          <span class="level-badge">🟡</span>
+          <span class="cover-title">Drenagem</span>
+          <span class="cover-watch">нажми, чтобы посмотреть ↗</span>
+        </a>
+        <div class="card-body">
+          <div class="card-level">🟡 Усложнённое хорео</div>
+          <div class="card-meta">Доступ — навсегда</div>
+          <div class="price-row"><span class="price">1 500 ₽</span><button class="btn-add" data-id="drenagem" data-title="Хореография DRENAGEM" data-price="1500" data-kind="choreo">В корзину</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <a class="cover cover-photo" style="background-image:url('https://aliviyaaaaa.github.io/black-friday-yana-mockup/covers/baby.jpg')" href="https://www.instagram.com/reel/DGlCmxbpK1O/" target="_blank" rel="noopener">
+          <span class="level-badge">🟡</span>
+          <span class="cover-title">Baby</span>
+          <span class="cover-watch">нажми, чтобы посмотреть ↗</span>
+        </a>
+        <div class="card-body">
+          <div class="card-level">🟡 Усложнённое хорео</div>
+          <div class="card-meta">Доступ — навсегда</div>
+          <div class="price-row"><span class="price">1 500 ₽</span><button class="btn-add" data-id="baby" data-title="Хореография BABY" data-price="1500" data-kind="choreo">В корзину</button></div>
+        </div>
+      </div>
+      <div class="card">
+        <a class="cover cover-photo" style="background-image:url('https://aliviyaaaaa.github.io/black-friday-yana-mockup/covers/soweto.jpg')" href="https://www.instagram.com/reel/DELLiBcuUr-/" target="_blank" rel="noopener">
+          <span class="level-badge">🟡</span>
+          <span class="cover-title">Soweto</span>
+          <span class="cover-watch">нажми, чтобы посмотреть ↗</span>
+        </a>
+        <div class="card-body">
+          <div class="card-level">🟡 Усложнённое хорео</div>
+          <div class="card-meta">Доступ — навсегда</div>
+          <div class="price-row"><span class="price">1 500 ₽</span><button class="btn-add" data-id="soweto" data-title="Хореография SOWETO" data-price="1500" data-kind="choreo">В корзину</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="package">
+      <div>
+        <div class="p-title">Все 8 хореографий</div>
+        <div class="p-sub">Все 8 хореографий за 7 000 ₽ — <b>экономия 5 000 ₽</b> по сравнению с покупкой отдельно. Доступ — навсегда.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <span class="p-old">12 000 ₽</span>
+        <span class="p-price">7 000 ₽</span>
+        <button class="btn-add" data-id="pack8" data-title="Пакет «Все 8 хореографий»" data-price="7000" data-kind="package">Забрать пакет</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- РАЗБОРЫ -->
+  <section class="section" id="blocks">
+    <h3>Разборы <span>и тематические блоки</span></h3>
+    <p class="section-intro"><b>Что внутри каждого блока?</b> Два практических урока для погружения в выбранный стиль: от базовых движений до усложнённых степов и комбинаций. Плюс лекция о стиле к каждому блоку.</p>
+    <p class="section-intro">· <b>Урок 1 — база.</b> Основные степы и подробный разбор техники их исполнения.<br>· <b>Урок 2 — усложнение.</b> Более сложные степы и комбинации для отработки футворка, техники, работы в партере и развития фристайла.</p>
+    <div class="grid" id="blocksGrid"></div>
+  </section>
+
+  <!-- КУРС ПО БЁДРАМ -->
+  <section class="section" id="hips">
+    <h3>Курс <span>«Дикие бёдра»</span></h3>
+    <p class="section-intro">Больше свободы и контроля в движениях бёдер.</p>
+    <div class="package">
+      <div>
+        <div class="p-title">Дикие бёдра</div>
+        <div class="p-sub">
+          Больше свободы, пластики и контроля в движениях — даже если начинаешь с нуля.<br><br>
+          <b>10 уроков + бонус:</b> круги и изоляции бёдер, работа коленей и стоп, уровни, волны, тряски, Tyla Move, афро степы. Разбираем механику движений, учимся менять текстуры и применять технику в танце.<br><br>
+          <b>В подарок:</b> разминка и упражнения на мобильность, плейлисты для тренировок и подборка Reels и TikTok-трендов.<br>
+          Уроки в записи — занимайся в своём темпе. Доступ — навсегда.
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <span class="p-price">4 490 ₽</span>
+        <button class="btn-add" data-id="hips" data-title="Курс «Дикие бёдра»" data-price="4490" data-kind="course">Хочу на курс</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЧЕКЛИСТ -->
+  <section class="section" id="checklist">
+    <h3>Чеклист <span>по афро-степам + лекции</span></h3>
+    <p class="section-intro">
+      Твоя библиотека афро-степов в одном DOC-файле: движения собраны по стилям, к каждому прикреплены ссылка на видео и нужный тайм-код. Выбирай степ, переходи к разбору и сразу находи нужный фрагмент. Используй для самостоятельных тренировок, повторения базы и поиска движений для фристайла и комбинаций.<br><br>
+      <b>В комплекте лекции:</b> Azonto, Afrohouse, Naija Fusion, Ndombolo, Coupé-Décalé, Afrojizz и Gaboma.<br>
+      Формат: DOC-файл со ссылками + доступ к лекциям. Доступ — навсегда.
+    </p>
+    <div class="package">
+      <div>
+        <div class="p-title">Чеклист + лекции</div>
+        <div class="p-sub">Вся база степов и 7 лекций о стилях в одном комплекте.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <span class="p-price">1 490 ₽</span>
+        <button class="btn-add" data-id="checklist" data-title="Чеклист по афро-степам + лекции" data-price="1490" data-kind="checklist">Забрать материалы</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- БОНУС -->
+  <section class="section">
+    <div class="bonus-big">
+      <h3>Твоя следующая ступень — <span>Афро Академия</span></h3>
+      <p>Купи любой продукт на распродаже и получи скидку 10% на следующий поток Афро Академии Онлайн. Промокод «Черная пятница» придёт на почту вместе с материалами заказа.</p>
+    </div>
+  </section>
+
+  <!-- О ПРЕПОДАВАТЕЛЕ -->
+  <section class="section" id="about">
+    <h3>О преподавателе</h3>
+    <div class="about">
+      <img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/photo-about.jpg" alt="Яна Дон">
+      <div class="about-text">
+        <p><b>Яна Дон</b></p>
+        <p>Хореограф и преподаватель с 19-летним танцевальным опытом. Участница проектов «ТАНЦЫ» на ТНТ и «Новые Танцы».</p>
+        <p>Преподавала во Франции, США, Испании, Китае, Индии, Италии, Турции и Южной Корее.</p>
+        <p>Основательница команды OZEBA, организатор Afro Sistaz Camp и Afro Power Tour по странам СНГ.</p>
+        <p>В обучении соединяю технику, понимание стиля и свободу движения — чтобы ты могла не только повторять, но и танцевать по-своему.</p>
+        <p><a class="ig" href="#" onclick="return false">Instagram Яны ↗</a><a class="ig" href="#" onclick="return false">Instagram OZEBA ↗</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ОТЗЫВЫ -->
+  <section class="section" id="reviews">
+    <h3>Отзывы</h3>
+    <div class="reviews-hint">Нажми на стопку — отзывы разложатся по экрану. Нажми на отзыв — откроется на весь экран.</div>
+    <div class="pile" id="pile">
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r02.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r08.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r09.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r04.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r11.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r01.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r05.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r03.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r06.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r07.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r10.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+      <figure class="rev-card"><img src="https://aliviyaaaaa.github.io/black-friday-yana-mockup/reviews/r12.jpg" alt="Отзыв ученицы" loading="lazy"></figure>
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Закрыть">✕</button>
+    <img id="lightbox-img" alt="Отзыв ученицы">
+  </div>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <h3>Частые <span>вопросы</span></h3>
+    <details class="faq"><summary>Подойдёт ли обучение новичкам?</summary><p>Да! В тематических блоках начинаем с базовых степов и постепенно переходим к усложнениям. Курс «Дикие бёдра» можно проходить с нуля. При выборе хореографии ориентируйся на её уровень сложности и видеопревью.</p></details>
+    <details class="faq"><summary>Можно ли купить несколько продуктов?</summary><p>Да, выбирай несколько продуктов или забирай все восемь хореографий пакетом за 7 000 ₽.</p></details>
+    <details class="faq"><summary>Где находятся уроки?</summary><p>Все видеоуроки размещены в Telegram. Если у тебя нет доступа к Telegram, предоставим материалы через диск. Чеклист и лекции придут на почту в формате DOC-файлов со ссылками на материалы.</p></details>
+    <details class="faq"><summary>Когда открывается доступ?</summary><p>Автоматически сразу после успешной оплаты. На email, указанный при покупке, придёт письмо с материалами и инструкцией по доступу. Если письма нет, проверь папку «Спам» или напиши в поддержку.</p></details>
+    <details class="faq"><summary>На какой срок доступны материалы?</summary><p>Все материалы доступны навсегда: хореографии, тематические блоки, курс «Дикие бёдра», чеклист и лекции.</p></details>
+    <details class="faq"><summary>Есть ли обратная связь?</summary><p>Нет, обучение проходит самостоятельно. Занимайся в своём темпе, повторяй движения и возвращайся к урокам в любое время.</p></details>
+    <details class="faq"><summary>Как получить скидку на Afro Academy?</summary><p>Купи любой продукт на распродаже и получи скидку 10% на следующий поток Afro Academy. При покупке следующего потока используй промокод, который отправили тебе на почту.</p></details>
+    <details class="faq"><summary>Куда написать, если возникла проблема с оплатой или доступом?</summary><p>Напиши в нашу поддержку в Telegram — <a href="https://t.me/Yanadon_work" target="_blank" rel="noopener" style="color:var(--accent)">@Yanadon_work</a>. Поможем разобраться с оплатой и получением материалов.</p></details>
+  </section>
+
+  <footer>
+    <div>Поддержка: <a href="https://t.me/Yanadon_work" target="_blank" rel="noopener">@Yanadon_work</a> в Telegram</div>
+    <div>Реквизиты продавца · Оферта · Политика конфиденциальности — появятся перед запуском (ждём документы)</div>
+  </footer>
+
+  <div class="mockup-note">Макет · демо: тексты, цены и ссылки из ТЗ; даты и условия акции уточняются</div>
+</main>
+
+<!-- КОРЗИНА -->
+<button class="cart-fab" id="cartFab">🛒 <span class="cnt" id="cartCnt">0</span> · <span id="cartSum">0 ₽</span></button>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-head"><h3>Корзина</h3><button class="cart-close" id="cartClose">×</button></div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-foot" id="cartFoot">
+    <div class="cart-total"><span>Итого</span><span id="cartTotal">0 ₽</span></div>
+    <button class="btn-checkout" id="checkoutBtn">Перейти к оплате</button>
+  </div>
+</aside>
+
+<script>
+(function () {
+  var BLOCKS = [
+    ['NDOMBOLO', '🇨🇬🇨🇩'],
+    ['AFROHOUSE', '🇦🇴'],
+    ['AZONTO', '🇬🇭'],
+    ['COUPE DECALE', '🇨🇮'],
+    ['NAIJA FUSION', '🇳🇬'],
+    ['GABOMA', '🇬🇦'],
+    ['SOUTH AFRICAN STYLES', '🇿🇦'],
+    ['AFROJIZZ', '🇫🇷']
+  ];
+  var grid = document.getElementById('blocksGrid');
+  BLOCKS.forEach(function (item, i) {
+    var name = item[0], flag = item[1];
+    var id = 'block' + i;
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML =
+      '<div class="cover"><span class="cover-flag">' + flag + '</span>' +
+      '<span class="cover-title">' + name + '</span>' +
+      '<span class="cover-watch">2 урока + лекция о стиле</span></div>' +
+      '<div class="card-body">' +
+      '<div class="price-row"><span class="price">2 990 ₽</span>' +
+      '<button class="btn-add" data-id="' + id + '" data-title="Блок «' + name + '»" data-price="2990" data-kind="block">В корзину</button></div></div>';
+    grid.appendChild(card);
+  });
+
+  var CHOREO_IDS = ['ozeba', 'moonlight', 'charm', 'butta', 'shekini', 'drenagem', 'baby', 'soweto'];
+  var cart = [];
+  var fab = document.getElementById('cartFab');
+  var overlay = document.getElementById('cartOverlay');
+  var drawer = document.getElementById('cartDrawer');
+  var body = document.getElementById('cartBody');
+  var foot = document.getElementById('cartFoot');
+  var purchased = false;
+
+  function fmt(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
+  function total() { return cart.reduce(function (s, i) { return s + i.price; }, 0); }
+  function inCart(id) { return cart.some(function (i) { return i.id === id; }); }
+
+  function syncButtons() {
+    document.querySelectorAll('.btn-add').forEach(function (b) {
+      var added = inCart(b.dataset.id);
+      b.classList.toggle('in-cart', added);
+      b.textContent = added ? 'В корзине ✓' : (b.dataset.kind === 'package' ? 'Забрать пакет' : b.dataset.kind === 'course' ? 'Хочу на курс' : b.dataset.kind === 'checklist' ? 'Забрать материалы' : 'В корзину');
+    });
+  }
+
+  function render() {
+    purchased = false;
+    document.getElementById('cartCnt').textContent = cart.length;
+    document.getElementById('cartSum').textContent = fmt(total());
+    document.getElementById('cartTotal').textContent = fmt(total());
+    fab.classList.toggle('show', cart.length > 0);
+    foot.style.display = cart.length ? 'block' : 'none';
+
+    if (!cart.length) {
+      body.innerHTML = '<div class="cart-empty">Пока пусто. Выбери обучение в каталоге 👇</div>';
+      syncButtons();
+      return;
+    }
+
+    var html = '';
+    cart.forEach(function (i) {
+      html += '<div class="cart-item"><div><div class="t">' + i.title + '</div><div class="p">' + fmt(i.price) + '</div></div>' +
+        '<button class="rm" data-rm="' + i.id + '" title="Удалить">×</button></div>';
+    });
+
+    var singles = cart.filter(function (i) { return i.kind === 'choreo'; });
+    var hasPack = inCart('pack8');
+    if (hasPack && singles.length) {
+      html += '<div class="cart-warn">⚠️ Пакет «Все 8 хореографий» уже включает отдельные хореографии в корзине — удали их, чтобы не платить дважды.</div>';
+    }
+    if (!hasPack && singles.length === CHOREO_IDS.length) {
+      html += '<div class="cart-warn">💡 Ты добавила все 8 хореографий по отдельности. Выгоднее взять пакет!<br>' +
+        '<button class="cart-swap" id="swapPack">Заменить пакетом — 7 000 ₽ вместо ' + fmt(total()) + '</button></div>';
+    }
+    html += '<div class="cart-bonus">🎁 Напоминание: вместе с заказом ты получишь скидку 10% на следующий поток Афро Академии Онлайн — промокод «Черная пятница» придёт на почту.</div>';
+    body.innerHTML = html;
+    syncButtons();
+  }
+
+  document.addEventListener('click', function (e) {
+    var add = e.target.closest('.btn-add');
+    if (add && !inCart(add.dataset.id)) {
+      cart.push({ id: add.dataset.id, title: add.dataset.title, price: +add.dataset.price, kind: add.dataset.kind });
+      render();
+      return;
+    }
+    var rm = e.target.closest('[data-rm]');
+    if (rm) {
+      cart = cart.filter(function (i) { return i.id !== rm.dataset.rm; });
+      render();
+      return;
+    }
+    if (e.target.id === 'swapPack') {
+      cart = cart.filter(function (i) { return i.kind !== 'choreo'; });
+      cart.push({ id: 'pack8', title: 'Пакет «Все 8 хореографий»', price: 7000, kind: 'package' });
+      render();
+      return;
+    }
+    if (e.target.id === 'checkoutBtn' && cart.length && !purchased) {
+      purchased = true;
+      foot.style.display = 'none';
+      body.innerHTML =
+        '<div class="success-box"><div class="ok">✅</div>' +
+        '<h3 style="text-transform:uppercase">Заказ оформлен!</h3>' +
+        '<p>На твою почту отправлены состав заказа, инструкция по доступу к материалам и промокод <b>«Черная пятница»</b> на скидку 10% на следующий поток Афро Академии Онлайн.</p>' +
+        '<p>Если письма нет — проверь «Спам» или напиши в поддержку: <a href="https://t.me/Yanadon_work" target="_blank" rel="noopener" style="color:var(--accent)">@Yanadon_work</a></p></div>';
+      return;
+    }
+    if (e.target.closest('#cartFab')) { drawer.classList.add('open'); overlay.classList.add('open'); }
+    if (e.target.closest('#cartClose') || e.target.id === 'cartOverlay') {
+      drawer.classList.remove('open'); overlay.classList.remove('open');
+    }
+  });
+
+  render();
+})();
+</script>
+
+<script>
+(function () {
+  var track = document.getElementById('swipeTrack');
+  var knob = document.getElementById('swipeKnob');
+  var fill = document.getElementById('swipeFill');
+  var call = document.getElementById('screenCall');
+  var hero = document.getElementById('screenHero');
+  var dragging = false, startX = 0, knobX = 0, max = 0, answered = false;
+
+  function bounds() { max = track.clientWidth - knob.offsetWidth - 8; }
+  function setX(x) {
+    knobX = Math.max(0, Math.min(x, max));
+    knob.style.left = (4 + knobX) + 'px';
+    fill.style.width = (knobX + knob.offsetWidth) + 'px';
+  }
+  function answer() {
+    if (answered) return;
+    answered = true;
+    setX(max);
+    setTimeout(function () {
+      call.classList.add('answered');
+      hero.classList.add('visible');
+      window.scrollTo(0, 0);
+    }, 250);
+  }
+  function reset() {
+    knob.style.transition = 'left .35s cubic-bezier(.2,.9,.3,1.2)';
+    fill.style.transition = 'width .35s ease';
+    setX(0);
+    setTimeout(function () { knob.style.transition = ''; fill.style.transition = ''; }, 380);
+  }
+
+  knob.addEventListener('pointerdown', function (e) {
+    if (answered) return;
+    dragging = true;
+    startX = e.clientX - knobX;
+    knob.setPointerCapture(e.pointerId);
+    bounds();
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!dragging || answered) return;
+    setX(e.clientX - startX);
+  });
+  window.addEventListener('pointerup', function () {
+    if (!dragging || answered) return;
+    dragging = false;
+    if (knobX > max * 0.7) answer(); else reset();
+  });
+
+  window.addEventListener('resize', function () { bounds(); setX(answered ? max : 0); });
+  bounds();
+})();
+</script>
+
+<script>
+/* стопка отзывов: раскладывание + лайтбокс */
+(function () {
+  var pile = document.getElementById('pile');
+  if (!pile) return;
+  var cards = Array.prototype.slice.call(pile.querySelectorAll('.rev-card'));
+  var spread = false;
+
+  var pilePos = [
+    { x: -70, y: -24, r: -8 }, { x: 30, y: -40, r: 5 }, { x: -30, y: 14, r: -3 },
+    { x: 80, y: 20, r: 9 }, { x: -90, y: 30, r: -11 }, { x: 55, y: -12, r: 2 },
+    { x: -10, y: -34, r: -6 }, { x: 95, y: -30, r: 7 }, { x: -55, y: 40, r: 4 },
+    { x: 15, y: 34, r: -9 }, { x: 65, y: 44, r: -2 }, { x: -15, y: -8, r: 11 }
+  ];
+
+  function layout() {
+    var W = pile.clientWidth;
+    var mobile = W < 640;
+    var cols = mobile ? 2 : 4;
+    var gap = mobile ? 10 : 16;
+    var colW = (W - gap * (cols - 1)) / cols;
+
+    cards.forEach(function (c) {
+      c.style.width = (spread ? colW : Math.min(300, W * (mobile ? 0.46 : 0.3))) + 'px';
+    });
+
+    if (!spread) {
+      var h = mobile ? 300 : 380;
+      pile.style.height = h + 'px';
+      var cx = W / 2, cy = h / 2;
+      cards.forEach(function (c, i) {
+        var p = pilePos[i % pilePos.length];
+        var s = mobile ? 0.55 : 1;
+        c.style.zIndex = i + 1;
+        c.style.transitionDelay = (i * 25) + 'ms';
+        c.style.transform = 'translate(' + (cx + p.x * s - c.offsetWidth / 2) + 'px,' +
+          (cy + p.y * s - c.offsetHeight / 2) + 'px) rotate(' + p.r + 'deg)';
+      });
+    } else {
+      var ys = [];
+      for (var k = 0; k < cols; k++) ys[k] = 0;
+      cards.forEach(function (c, i) {
+        var min = 0;
+        for (var k = 1; k < cols; k++) if (ys[k] < ys[min]) min = k;
+        var x = min * (colW + gap), y = ys[min];
+        c.style.zIndex = i + 1;
+        c.style.transitionDelay = (i * 40) + 'ms';
+        c.style.transform = 'translate(' + x + 'px,' + y + 'px) rotate(' + ((i % 2 ? 1 : -1) * (1 + i % 3)) + 'deg)';
+        ys[min] = y + c.offsetHeight + gap;
+      });
+      pile.style.height = Math.max.apply(null, ys) - gap + 'px';
+    }
+  }
+
+  pile.addEventListener('click', function (e) {
+    var card = e.target.closest('.rev-card');
+    if (!spread) {
+      spread = true;
+      layout();
+    } else if (card) {
+      openLightbox(card.querySelector('img').src);
+    } else {
+      spread = false;
+      layout();
+    }
+  });
+
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightbox-img');
+  function openLightbox(src) {
+    lightboxImg.src = src;
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  lightbox.addEventListener('click', function (e) { if (e.target !== lightboxImg) closeLightbox(); });
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  window.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLightbox(); });
+
+  pile.querySelectorAll('img').forEach(function (img) {
+    if (!img.complete) img.addEventListener('load', layout);
+  });
+  window.addEventListener('resize', layout);
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(function () { layout(); }).observe(pile);
+  }
+  layout();
+})();
+</script>
