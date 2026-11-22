@@ -414,18 +414,37 @@
   .about-text .ig { color: var(--accent); text-decoration: none; font-size: 14px; margin-right: 16px; }
   @media (max-width: 720px) { .about { grid-template-columns: 1fr; } .about img { max-width: 320px; } }
 
-  /* отзывы */
-  .reviews-grid { columns: 3 250px; column-gap: 14px; margin-top: 22px; }
-  .reviews-grid img {
-    width: 100%;
+  /* отзывы — бегущая полоса */
+  .reviews-marquee { margin-top: 22px; }
+  .marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee + .marquee { margin-top: 14px; }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 48s linear infinite;
+  }
+  .marquee.reverse .marquee-track { animation-direction: reverse; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  .marquee-track img {
+    height: 240px;
+    width: auto;
     display: block;
     border-radius: 14px;
     border: 1px solid rgba(255,255,255,.1);
-    margin-bottom: 14px;
-    break-inside: avoid;
+    margin-right: 14px;
     transition: transform .2s, border-color .2s;
   }
-  .reviews-grid img:hover { transform: translateY(-2px); border-color: rgba(255,45,45,.45); }
+  .marquee-track img:hover { transform: scale(1.03); border-color: rgba(255,45,45,.45); }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  @media (max-width: 720px) { .marquee-track img { height: 180px; } }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+    .marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  }
 
   .placeholder-box {
     border: 1px dashed rgba(255,255,255,.25);
@@ -785,19 +804,39 @@
   <!-- ОТЗЫВЫ -->
   <section class="section" id="reviews">
     <h3>Отзывы</h3>
-    <div class="reviews-grid">
-      <img src="reviews/r02.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r08.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r09.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r04.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r11.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r01.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r05.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r03.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r06.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r07.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r10.jpg" alt="Отзыв ученицы" loading="lazy">
-      <img src="reviews/r12.jpg" alt="Отзыв ученицы" loading="lazy">
+    <div class="reviews-marquee">
+      <div class="marquee">
+        <div class="marquee-track">
+          <img src="reviews/r02.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r08.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r09.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r04.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r11.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r01.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r02.jpg" alt="" aria-hidden="true" loading="lazy">
+          <img src="reviews/r08.jpg" alt="" aria-hidden="true" loading="lazy">
+          <img src="reviews/r09.jpg" alt="" aria-hidden="true" loading="lazy">
+          <img src="reviews/r04.jpg" alt="" aria-hidden="true" loading="lazy">
+          <img src="reviews/r11.jpg" alt="" aria-hidden="true" loading="lazy">
+          <img src="reviews/r01.jpg" alt="" aria-hidden="true" loading="lazy">
+        </div>
+      </div>
+      <div class="marquee reverse">
+        <div class="marquee-track">
+          <img src="reviews/r05.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r03.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r06.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r07.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r10.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r12.jpg" alt="Отзыв ученицы" loading="lazy">
+          <img src="reviews/r05.jpg" alt="" aria-hidden="true" loading="lazy">
+          <img src="reviews/r03.jpg" alt="" aria-hidden="true" loading="lazy">
+          <img src="reviews/r06.jpg" alt="" aria-hidden="true" loading="lazy">
+          <img src="reviews/r07.jpg" alt="" aria-hidden="true" loading="lazy">
+          <img src="reviews/r10.jpg" alt="" aria-hidden="true" loading="lazy">
+          <img src="reviews/r12.jpg" alt="" aria-hidden="true" loading="lazy">
+        </div>
+      </div>
     </div>
   </section>
 
