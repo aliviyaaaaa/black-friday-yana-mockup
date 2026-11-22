@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Чёрная пятница с Яной Дон — макет первого экрана</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Чёрная пятница с Яной Дон — 25–27 ноября</title>
 <style>
   :root {
     --accent: #ff2d2d;
@@ -588,6 +588,7 @@
     font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em;
     cursor: pointer;
   }
+  .btn-checkout:disabled { opacity: .6; cursor: not-allowed; }
   .success-box { text-align: center; padding: 30px 6px; display: flex; flex-direction: column; gap: 14px; align-items: center; }
   .success-box .ok { font-size: 52px; }
   .success-box p { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.75); }
@@ -618,7 +619,7 @@
     <div class="swipe-track" id="swipeTrack">
       <div class="swipe-fill" id="swipeFill"></div>
       <div class="swipe-text">Ответить на вызов</div>
-      <div class="swipe-knob" id="swipeKnob">
+      <div class="swipe-knob" id="swipeKnob" role="button" tabindex="0" aria-label="Открыть каталог">
         <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></svg>
       </div>
     </div>
@@ -630,7 +631,7 @@
 <main class="screen-hero" id="screenHero">
   <div class="hero-photo"></div>
   <div class="hero-content">
-    <span class="hero-date">13–15 ноября</span>
+    <span class="hero-date">25–27 ноября</span>
     <h2>Чёрная<br>пятница <span>с Яной Дон</span></h2>
     <p class="hero-sub">Хореографии, афро-база и работа с бёдрами — выбирай, что будешь прокачивать.</p>
     <a class="btn-main" href="#catalog">Выбрать обучение</a>
@@ -689,10 +690,10 @@
         </div>
       </div>
       <div class="card">
-        <a class="cover cover-photo" href="#" onclick="return false" style="cursor:default;background-image:url('covers/butta.jpg')">
+        <a class="cover cover-photo" href="https://www.instagram.com/reel/CvzaSh2Is5R/" target="_blank" rel="noopener" style="background-image:url('covers/butta.jpg')">
           <span class="level-badge">🟡</span>
           <span class="cover-title">Butta My Bread</span>
-          <span class="cover-watch">ссылка уточняется</span>
+          <span class="cover-watch">нажми, чтобы посмотреть ↗</span>
         </a>
         <div class="card-body">
           <div class="card-level">🟡 Усложнённое хорео</div>
@@ -815,7 +816,7 @@
   <section class="section">
     <div class="bonus-big">
       <h3>Твоя следующая ступень — <span>Афро Академия</span></h3>
-      <p>Купи любой продукт на распродаже и получи скидку 10% на следующий поток Афро Академии Онлайн. Промокод «Черная пятница» придёт на почту вместе с материалами заказа.</p>
+      <p>Купи любой продукт на распродаже и получи скидку 10% на следующий поток Афро Академии Онлайн. Скидка действует на все тарифы и не суммируется с другими акциями. Условия получения отправим лично после подтверждения оплаты.</p>
     </div>
   </section>
 
@@ -866,10 +867,10 @@
     <details class="faq"><summary>Подойдёт ли обучение новичкам?</summary><p>Да! В тематических блоках начинаем с базовых степов и постепенно переходим к усложнениям. Курс «Дикие бёдра» можно проходить с нуля. При выборе хореографии ориентируйся на её уровень сложности и видеопревью.</p></details>
     <details class="faq"><summary>Можно ли купить несколько продуктов?</summary><p>Да, выбирай несколько продуктов или забирай все восемь хореографий пакетом за 7 000 ₽.</p></details>
     <details class="faq"><summary>Где находятся уроки?</summary><p>Все видеоуроки размещены в Telegram. Если у тебя нет доступа к Telegram, предоставим материалы через диск. Чеклист и лекции придут на почту в формате DOC-файлов со ссылками на материалы.</p></details>
-    <details class="faq"><summary>Когда открывается доступ?</summary><p>Автоматически сразу после успешной оплаты. На email, указанный при покупке, придёт письмо с материалами и инструкцией по доступу. Если письма нет, проверь папку «Спам» или напиши в поддержку.</p></details>
+    <details class="faq"><summary>Когда открывается доступ?</summary><p>Доступ предоставляется после подтверждения оплаты. Точный срок и способ получения материалов укажем здесь до открытия продаж. Сейчас оплата на сайте ещё не подключена.</p></details>
     <details class="faq"><summary>На какой срок доступны материалы?</summary><p>Все материалы доступны навсегда: хореографии, тематические блоки, курс «Дикие бёдра», чеклист и лекции.</p></details>
     <details class="faq"><summary>Есть ли обратная связь?</summary><p>Нет, обучение проходит самостоятельно. Занимайся в своём темпе, повторяй движения и возвращайся к урокам в любое время.</p></details>
-    <details class="faq"><summary>Как получить скидку на Afro Academy?</summary><p>Купи любой продукт на распродаже и получи скидку 10% на следующий поток Afro Academy. При покупке следующего потока используй промокод, который отправили тебе на почту.</p></details>
+    <details class="faq"><summary>Как получить скидку на Afro Academy?</summary><p>Купи любой продукт на распродаже и получи скидку 10% на следующий поток Афро Академии Онлайн. Скидка действует на все тарифы и не суммируется с другими акциями. Условия получения отправим лично после подтверждения оплаты.</p></details>
     <details class="faq"><summary>Куда написать, если возникла проблема с оплатой или доступом?</summary><p>Напиши в нашу поддержку в Telegram — <a href="https://t.me/Yanadon_work" target="_blank" rel="noopener" style="color:var(--accent)">@Yanadon_work</a>. Поможем разобраться с оплатой и получением материалов.</p></details>
   </section>
 
@@ -878,7 +879,7 @@
     <div>Реквизиты продавца · Оферта · Политика конфиденциальности — появятся перед запуском (ждём документы)</div>
   </footer>
 
-  <div class="mockup-note">Макет · демо: тексты, цены и ссылки из ТЗ; даты и условия акции уточняются</div>
+  <div class="mockup-note">Распродажа 25–27 ноября 2026 года · Приём платежей готовится к запуску</div>
 </main>
 
 <!-- КОРЗИНА -->
@@ -889,7 +890,8 @@
   <div class="cart-body" id="cartBody"></div>
   <div class="cart-foot" id="cartFoot">
     <div class="cart-total"><span>Итого</span><span id="cartTotal">0 ₽</span></div>
-    <button class="btn-checkout" id="checkoutBtn">Перейти к оплате</button>
+    <button class="btn-checkout" id="checkoutBtn" disabled>Оплата скоро появится</button>
+    <p style="font-size:13px;line-height:1.5;margin-top:10px;color:rgba(255,255,255,.7)">Приём платежей ещё не подключён. Заказ пока не оформляется.</p>
   </div>
 </aside>
 
@@ -928,7 +930,6 @@
   var drawer = document.getElementById('cartDrawer');
   var body = document.getElementById('cartBody');
   var foot = document.getElementById('cartFoot');
-  var purchased = false;
 
   function fmt(n) { return n.toLocaleString('ru-RU') + ' ₽'; }
   function total() { return cart.reduce(function (s, i) { return s + i.price; }, 0); }
@@ -936,14 +937,15 @@
 
   function syncButtons() {
     document.querySelectorAll('.btn-add').forEach(function (b) {
-      var added = inCart(b.dataset.id);
+      var included = b.dataset.kind === 'choreo' && inCart('pack8');
+      var added = inCart(b.dataset.id) || included;
+      b.disabled = included;
       b.classList.toggle('in-cart', added);
-      b.textContent = added ? 'В корзине ✓' : (b.dataset.kind === 'package' ? 'Забрать пакет' : b.dataset.kind === 'course' ? 'Хочу на курс' : b.dataset.kind === 'checklist' ? 'Забрать материалы' : 'В корзину');
+      b.textContent = included ? 'В пакете ✓' : added ? 'В корзине ✓' : (b.dataset.kind === 'package' ? 'Забрать пакет' : b.dataset.kind === 'course' ? 'Хочу на курс' : b.dataset.kind === 'checklist' ? 'Забрать материалы' : 'В корзину');
     });
   }
 
   function render() {
-    purchased = false;
     document.getElementById('cartCnt').textContent = cart.length;
     document.getElementById('cartSum').textContent = fmt(total());
     document.getElementById('cartTotal').textContent = fmt(total());
@@ -969,9 +971,9 @@
     }
     if (!hasPack && singles.length === CHOREO_IDS.length) {
       html += '<div class="cart-warn">💡 Ты добавила все 8 хореографий по отдельности. Выгоднее взять пакет!<br>' +
-        '<button class="cart-swap" id="swapPack">Заменить пакетом — 7 000 ₽ вместо ' + fmt(total()) + '</button></div>';
+        '<button class="cart-swap" id="swapPack">Заменить пакетом — 7 000 ₽ вместо ' + fmt(singles.reduce(function (sum, item) { return sum + item.price; }, 0)) + '</button></div>';
     }
-    html += '<div class="cart-bonus">🎁 Напоминание: вместе с заказом ты получишь скидку 10% на следующий поток Афро Академии Онлайн — промокод «Черная пятница» придёт на почту.</div>';
+    html += '<div class="cart-bonus">🎁 После подтверждения оплаты ты получишь лично условия скидки 10% на следующий поток Афро Академии Онлайн. На все тарифы, без суммирования с другими акциями.</div>';
     body.innerHTML = html;
     syncButtons();
   }
@@ -979,6 +981,8 @@
   document.addEventListener('click', function (e) {
     var add = e.target.closest('.btn-add');
     if (add && !inCart(add.dataset.id)) {
+      if (add.dataset.kind === 'choreo' && inCart('pack8')) return;
+      if (add.dataset.kind === 'package') cart = cart.filter(function (item) { return item.kind !== 'choreo'; });
       cart.push({ id: add.dataset.id, title: add.dataset.title, price: +add.dataset.price, kind: add.dataset.kind });
       render();
       return;
@@ -993,16 +997,6 @@
       cart = cart.filter(function (i) { return i.kind !== 'choreo'; });
       cart.push({ id: 'pack8', title: 'Пакет «Все 8 хореографий»', price: 7000, kind: 'package' });
       render();
-      return;
-    }
-    if (e.target.id === 'checkoutBtn' && cart.length && !purchased) {
-      purchased = true;
-      foot.style.display = 'none';
-      body.innerHTML =
-        '<div class="success-box"><div class="ok">✅</div>' +
-        '<h3 style="text-transform:uppercase">Заказ оформлен!</h3>' +
-        '<p>На твою почту отправлены состав заказа, инструкция по доступу к материалам и промокод <b>«Черная пятница»</b> на скидку 10% на следующий поток Афро Академии Онлайн.</p>' +
-        '<p>Если письма нет — проверь «Спам» или напиши в поддержку: <a href="https://t.me/Yanadon_work" target="_blank" rel="noopener" style="color:var(--accent)">@Yanadon_work</a></p></div>';
       return;
     }
     if (e.target.closest('#cartFab')) { drawer.classList.add('open'); overlay.classList.add('open'); }
@@ -1047,6 +1041,9 @@
     setTimeout(function () { knob.style.transition = ''; fill.style.transition = ''; }, 380);
   }
 
+  knob.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); bounds(); answer(); }
+  });
   knob.addEventListener('pointerdown', function (e) {
     if (answered) return;
     dragging = true;
