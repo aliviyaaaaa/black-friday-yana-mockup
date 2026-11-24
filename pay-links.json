@@ -2,96 +2,101 @@
   "ozeba": {
     "name": "Хореография OZEBA",
     "price": 1500,
-    "link": "https://payform.ru/f2d5Feh/"
+    "link": "https://payform.ru/kmd6wBI/"
   },
   "moonlight": {
     "name": "Хореография MOONLIGHT VIBE",
     "price": 1500,
-    "link": "https://payform.ru/f3d5Fei/"
+    "link": "https://payform.ru/knd6wBJ/"
   },
   "charm": {
     "name": "Хореография CHARM",
     "price": 1500,
-    "link": "https://payform.ru/f4d5Fej/"
+    "link": "https://payform.ru/kod6wBK/"
   },
   "butta": {
     "name": "Хореография BUTTA MY BREAD",
     "price": 1500,
-    "link": "https://payform.ru/f6d5Fel/"
+    "link": "https://payform.ru/kpd6wBL/"
   },
   "shekini": {
     "name": "Хореография SHEKINI",
     "price": 1500,
-    "link": "https://payform.ru/f7d5Fem/"
+    "link": "https://payform.ru/kqd6wBM/"
   },
   "drenagem": {
     "name": "Хореография DRENAGEM",
     "price": 1500,
-    "link": "https://payform.ru/f8d5Fen/"
+    "link": "https://payform.ru/krd6wBN/"
   },
   "baby": {
     "name": "Хореография BABY",
     "price": 1500,
-    "link": "https://payform.ru/fad5Fep/"
+    "link": "https://payform.ru/ksd6wBO/"
   },
   "soweto": {
     "name": "Хореография SOWETO",
     "price": 1500,
-    "link": "https://payform.ru/fbd5Feq/"
+    "link": "https://payform.ru/ktd6wBP/"
   },
   "package": {
     "name": "Все 8 хореографий (пакет)",
     "price": 7000,
-    "link": "https://payform.ru/fcd5Fer/"
+    "link": "https://payform.ru/kvd6wBR/"
   },
   "ndombolo": {
     "name": "Блок NDOMBOLO",
     "price": 2990,
-    "link": "https://payform.ru/fdd5Fes/"
+    "link": "https://payform.ru/kwd6wBS/"
   },
   "afrohouse": {
     "name": "Блок AFROHOUSE",
     "price": 2990,
-    "link": "https://payform.ru/fed5Fet/"
+    "link": "https://payform.ru/l0d6wBT/"
   },
   "azonto": {
     "name": "Блок AZONTO",
     "price": 2990,
-    "link": "https://payform.ru/ffd5Feu/"
+    "link": "https://payform.ru/l1d6wBU/"
   },
   "coupedecale": {
     "name": "Блок COUPE DECALE",
     "price": 2990,
-    "link": "https://payform.ru/fgd5Fev/"
+    "link": "https://payform.ru/l2d6wBV/"
   },
   "naijafusion": {
     "name": "Блок NAIJA FUSION",
     "price": 2990,
-    "link": "https://payform.ru/fhd5Few/"
+    "link": "https://payform.ru/l4d6wBX/"
   },
   "gaboma": {
     "name": "Блок GABOMA",
     "price": 2990,
-    "link": "https://payform.ru/fid5Fex/"
+    "link": "https://payform.ru/l5d6wBY/"
   },
   "sastyles": {
     "name": "Блок SOUTH AFRICAN STYLES",
     "price": 2990,
-    "link": "https://payform.ru/fjd5Fey/"
+    "link": "https://payform.ru/l6d6wBZ/"
   },
   "afrojizz": {
     "name": "Блок AFROJIZZ",
     "price": 2990,
-    "link": "https://payform.ru/fkd5Fez/"
+    "link": "https://payform.ru/l7d6wC0/"
   },
   "hips": {
     "name": "Курс «Дикие бёдра»",
     "price": 4490,
-    "link": "https://payform.ru/fld5FeA/"
+    "link": "https://payform.ru/l8d6wC1/"
   },
   "checklist": {
     "name": "Чеклист по афро-степам + лекции",
     "price": 1490,
-    "link": "https://payform.ru/fmd5FeB/"
+    "link": "https://payform.ru/l9d6wC2/"
+  },
+  "afrosteps": {
+    "name": "10 Most Popular Afro Steps",
+    "price": 990,
+    "link": "https://payform.ru/lbd6wC4/"
   }
 }
