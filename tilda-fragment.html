@@ -1103,6 +1103,12 @@
   var hero = document.getElementById('screenHero');
   var dragging = false, startX = 0, knobX = 0, max = 0, answered = false;
 
+  if (localStorage.getItem('bf_answered') === '1') {
+    answered = true;
+    call.style.display = 'none';
+    hero.classList.add('visible');
+  }
+
   function bounds() { max = track.clientWidth - knob.offsetWidth - 8; }
   function setX(x) {
     knobX = Math.max(0, Math.min(x, max));
@@ -1112,6 +1118,7 @@
   function answer() {
     if (answered) return;
     answered = true;
+    try { localStorage.setItem('bf_answered', '1'); } catch (e) {}
     setX(max);
     setTimeout(function () {
       call.classList.add('answered');
@@ -1147,6 +1154,19 @@
   });
 
   window.addEventListener('resize', function () { bounds(); setX(answered ? max : 0); });
+
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var href = a.getAttribute('href');
+      if (href.length < 2) return;
+      var target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
   bounds();
 })();
 </script>
